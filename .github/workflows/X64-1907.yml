@@ -13,8 +13,11 @@ on:
 #  push:
 #    branches: 
 #      - master
-#  watch:
-#    types: started
+  watch:
+    types: started
+
+env:
+  SSH_ACTIONS: true
 
 jobs:
   build:
@@ -49,6 +52,10 @@ jobs:
           cd openwrt
           rm -f .config
           cp ../x64-1907 .config
+
+    - name: SSH connection to Actions
+      uses: P3TERX/debugger-action@master
+      if: env.SSH_ACTIONS == 'true'
           
     - name: Make Defconfig
       run: |
